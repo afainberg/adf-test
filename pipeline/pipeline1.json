@@ -12,7 +12,7 @@
 				}
 			},
 			{
-				"name": "Wait_copy1",
+				"name": "Wait2",
 				"type": "Wait",
 				"dependsOn": [
 					{
