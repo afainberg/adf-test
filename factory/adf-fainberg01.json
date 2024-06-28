@@ -1,0 +1,9 @@
+{
+	"name": "adf-fainberg01",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "fed98deb-6bba-4c71-900c-8311112dcb14",
+		"tenantId": "881ac82f-344b-45e9-b3e0-a03b6eb42f96"
+	}
+}
