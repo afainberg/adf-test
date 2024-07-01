@@ -12,9 +12,20 @@
 					"name": "Results"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "JsonBronze",
+						"type": "DatasetReference"
+					},
+					"name": "SinkBronzeResult"
+				}
+			],
 			"transformations": [],
 			"scriptLines": [
+				"parameters{",
+				"     year as string",
+				"}",
 				"source(output(",
 				"          resultId as integer,",
 				"          raceId as integer,",
@@ -38,7 +49,12 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     documentForm: 'documentPerLine') ~> Results"
+				"     documentForm: 'documentPerLine') ~> Results",
+				"Results sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     filePattern:(\"Results.csv\"),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SinkBronzeResult"
 			]
 		}
 	}
