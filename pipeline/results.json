@@ -30,6 +30,12 @@
 				}
 			}
 		],
+		"parameters": {
+			"p_year": {
+				"type": "int",
+				"defaultValue": 2010
+			}
+		},
 		"annotations": []
 	}
 }
