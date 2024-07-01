@@ -39,10 +39,10 @@
 					"name": "Join"
 				},
 				{
-					"name": "FilterSeason"
+					"name": "fiterRaceID"
 				},
 				{
-					"name": "fiterRaceID"
+					"name": "filterSeason"
 				}
 			],
 			"scriptLines": [
@@ -108,17 +108,16 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> FiltrarCol",
-				"Join filter(ERROR_FUNCTION('')) ~> FilterYear",
-				"FilterSeason, Results join(Results@raceId == Races@raceId,",
+				"Join filter(1 ==1) ~> FilterYear",
+				"filterSeason, fiterRaceID join(Races@raceId == Results@raceId,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> Join",
-				"Races filter(year==$p_year) ~> FilterSeason",
 				"Results filter(raceId<= 19) ~> fiterRaceID",
+				"Races filter(year==$p_year) ~> filterSeason",
 				"FiltrarCol sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     filePattern:(\"Results\"+$p_year+\".csv\"),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> SinkBronzeResult"
 			]
