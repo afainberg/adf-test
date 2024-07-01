@@ -47,7 +47,7 @@
 			],
 			"scriptLines": [
 				"parameters{",
-				"     year as integer (2007)",
+				"     p_year as integer (2007)",
 				"}",
 				"source(output(",
 				"          resultId as integer,",
@@ -114,11 +114,11 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> Join",
-				"Races filter(ERROR_FUNCTION('year==@year')) ~> FilterSeason",
+				"Races filter(year==$p_year) ~> FilterSeason",
 				"Results filter(raceId>=33 && raceId<=40) ~> fiterRaceID",
 				"FiltrarCol sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     filePattern:(\"Results\"+$year+\".csv\"),",
+				"     filePattern:(\"Results\"+$p_year+\".csv\"),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> SinkBronzeResult"
 			]
