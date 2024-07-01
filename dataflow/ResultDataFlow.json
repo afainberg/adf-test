@@ -24,7 +24,7 @@
 			"transformations": [],
 			"scriptLines": [
 				"parameters{",
-				"     year as string",
+				"     year as string ('2018')",
 				"}",
 				"source(output(",
 				"          resultId as integer,",
