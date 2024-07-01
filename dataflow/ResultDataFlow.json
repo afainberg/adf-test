@@ -78,7 +78,7 @@
 				"     skipDuplicateMapOutputs: true) ~> FiltrarCol",
 				"FiltrarCol sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     filePattern:(\"Results.csv\"),",
+				"     filePattern:(\"Results\"+$year+\".csv\"),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> SinkBronzeResult"
 			]
