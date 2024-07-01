@@ -111,7 +111,7 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join1",
-				"Races filter(year=='2018') ~> FilterSeason",
+				"Races filter(year==toInteger('2018')) ~> FilterSeason",
 				"FiltrarCol sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     filePattern:(\"Results\"+$year+\".csv\"),",
