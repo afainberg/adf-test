@@ -106,7 +106,7 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> FiltrarCol",
 				"Join filter(ERROR_FUNCTION('')) ~> FilterYear",
-				"Results, Races join(Results@raceId == Races@raceId,",
+				"Results, FilterSeason join(Results@raceId == Races@raceId,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
