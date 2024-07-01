@@ -36,7 +36,7 @@
 					"name": "FilterYear"
 				},
 				{
-					"name": "join1"
+					"name": "Join"
 				},
 				{
 					"name": "FilterSeason"
@@ -85,7 +85,7 @@
 				"     ignoreNoFilesFound: false) ~> Races",
 				"FilterYear select(mapColumn(",
 				"          resultId,",
-				"          raceId,",
+				"          raceId = Results@raceId,",
 				"          driverId,",
 				"          constructorId,",
 				"          number,",
@@ -95,7 +95,7 @@
 				"          positionOrder,",
 				"          points,",
 				"          laps,",
-				"          time,",
+				"          time = Results@time,",
 				"          milliseconds,",
 				"          fastestLap,",
 				"          ranking = rank,",
@@ -105,12 +105,12 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> FiltrarCol",
-				"join1 filter(ERROR_FUNCTION('')) ~> FilterYear",
-				"Results join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"Join filter(ERROR_FUNCTION('')) ~> FilterYear",
+				"Results, Races join(Results@raceId == Races@raceId,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join1",
+				"     broadcast: 'auto')~> Join",
 				"Races filter(year==toInteger('2018')) ~> FilterSeason",
 				"FiltrarCol sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
