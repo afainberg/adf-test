@@ -24,6 +24,9 @@
 			"transformations": [
 				{
 					"name": "FiltrarCol"
+				},
+				{
+					"name": "FilterYear"
 				}
 			],
 			"scriptLines": [
@@ -54,7 +57,7 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine') ~> Results",
-				"Results select(mapColumn(",
+				"FilterYear select(mapColumn(",
 				"          resultId,",
 				"          raceId,",
 				"          driverId,",
@@ -76,6 +79,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> FiltrarCol",
+				"Results filter(ERROR_FUNCTION('')) ~> FilterYear",
 				"FiltrarCol sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     filePattern:(\"Results\"+$year+\".csv\"),",
