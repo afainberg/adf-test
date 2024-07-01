@@ -394,7 +394,10 @@
 								"referenceName": "ResultDataFlow",
 								"type": "DataFlowReference",
 								"parameters": {
-									"p_year": "$p_year\r\n"
+									"p_year": {
+										"value": "@pipeline().parameters.p_year",
+										"type": "Expression"
+									}
 								},
 								"datasetParameters": {
 									"Results": {},
