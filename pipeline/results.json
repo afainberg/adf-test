@@ -19,7 +19,7 @@
 						"referenceName": "ResultDataFlow",
 						"type": "DataFlowReference",
 						"parameters": {
-							"p_year": "'2018'"
+							"p_year": "$p_year\r\n"
 						}
 					},
 					"compute": {
