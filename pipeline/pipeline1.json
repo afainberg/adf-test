@@ -12,22 +12,6 @@
 				}
 			},
 			{
-				"name": "Wait_copy1",
-				"type": "Wait",
-				"dependsOn": [
-					{
-						"activity": "Wait",
-						"dependencyConditions": [
-							"Skipped"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"waitTimeInSeconds": 1
-				}
-			},
-			{
 				"name": "Data flow1",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
@@ -48,11 +32,7 @@
 						}
 					},
 					"staging": {
-						"linkedService": {
-							"referenceName": "linkBlobFain",
-							"type": "LinkedServiceReference"
-						},
-						"folderPath": "adfstaging/test"
+						"folderPath": ""
 					},
 					"compute": {
 						"coreCount": 8,
