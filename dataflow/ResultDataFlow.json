@@ -21,7 +21,11 @@
 					"name": "SinkBronzeResult"
 				}
 			],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "FiltrarCol"
+				}
+			],
 			"scriptLines": [
 				"parameters{",
 				"     year as string ('2018')",
@@ -50,7 +54,29 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine') ~> Results",
-				"Results sink(allowSchemaDrift: true,",
+				"Results select(mapColumn(",
+				"          resultId,",
+				"          raceId,",
+				"          driverId,",
+				"          constructorId,",
+				"          number,",
+				"          grid,",
+				"          position,",
+				"          positionText,",
+				"          positionOrder,",
+				"          points,",
+				"          laps,",
+				"          time,",
+				"          milliseconds,",
+				"          fastestLap,",
+				"          ranking = rank,",
+				"          fastestLapTime,",
+				"          fastestLapSpeed,",
+				"          statusId",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> FiltrarCol",
+				"FiltrarCol sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     filePattern:(\"Results.csv\"),",
 				"     skipDuplicateMapInputs: true,",
