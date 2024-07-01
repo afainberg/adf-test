@@ -1,0 +1,78 @@
+{
+	"name": "JsonResults",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "linkBlobFain",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "results.json",
+				"folderPath": "raw",
+				"container": "raw"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"resultId": {
+					"type": "integer"
+				},
+				"raceId": {
+					"type": "integer"
+				},
+				"driverId": {
+					"type": "integer"
+				},
+				"constructorId": {
+					"type": "integer"
+				},
+				"number": {
+					"type": "integer"
+				},
+				"grid": {
+					"type": "integer"
+				},
+				"position": {
+					"type": "null"
+				},
+				"positionText": {
+					"type": "null"
+				},
+				"positionOrder": {
+					"type": "integer"
+				},
+				"points": {
+					"type": "integer"
+				},
+				"laps": {
+					"type": "integer"
+				},
+				"time": {
+					"type": "string"
+				},
+				"milliseconds": {
+					"type": "null"
+				},
+				"fastestLap": {
+					"type": "integer"
+				},
+				"rank": {
+					"type": "integer"
+				},
+				"fastestLapTime": {
+					"type": "string"
+				},
+				"fastestLapSpeed": {
+					"type": "number"
+				},
+				"statusId": {
+					"type": "integer"
+				}
+			}
+		}
+	}
+}

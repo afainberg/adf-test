@@ -1,0 +1,45 @@
+{
+	"name": "ResultDataFlow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "JsonResults",
+						"type": "DatasetReference"
+					},
+					"name": "Results"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          resultId as integer,",
+				"          raceId as integer,",
+				"          driverId as integer,",
+				"          constructorId as integer,",
+				"          number as integer,",
+				"          grid as integer,",
+				"          position as string,",
+				"          positionText as string,",
+				"          positionOrder as integer,",
+				"          points as integer,",
+				"          laps as integer,",
+				"          time as string,",
+				"          milliseconds as string,",
+				"          fastestLap as integer,",
+				"          rank as integer,",
+				"          fastestLapTime as string,",
+				"          fastestLapSpeed as double,",
+				"          statusId as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> Results"
+			]
+		}
+	}
+}
