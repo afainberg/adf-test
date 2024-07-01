@@ -118,7 +118,7 @@
 				"Races filter(year==$p_year) ~> filterSeason",
 				"FiltrarCol sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     partitionFileNames:['\\'results_\\'+$p_year+\\'.csv'],",
+				"     partitionFileNames:[(concat('results_',$p_year))],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     partitionBy('hash', 1)) ~> sink1"
