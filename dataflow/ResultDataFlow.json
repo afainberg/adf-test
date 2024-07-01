@@ -118,8 +118,10 @@
 				"Races filter(year==$p_year) ~> filterSeason",
 				"FiltrarCol sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     partitionFileNames:['\\'results_\\'+$p_year+\\'.csv'],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
 			]
 		}
 	}
