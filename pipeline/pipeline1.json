@@ -12,7 +12,7 @@
 				}
 			},
 			{
-				"name": "Wait2",
+				"name": "Wait_copy1",
 				"type": "Wait",
 				"dependsOn": [
 					{
@@ -29,7 +29,7 @@
 			}
 		],
 		"annotations": [],
-		"lastPublishTime": "2024-06-28T15:48:37Z"
+		"lastPublishTime": "2024-06-28T16:38:53Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }
