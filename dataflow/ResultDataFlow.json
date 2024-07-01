@@ -26,6 +26,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "CosmosDbNoSqlContainer1",
+						"type": "DatasetReference"
+					},
+					"name": "sinkCosmoDb"
 				}
 			],
 			"transformations": [
@@ -121,7 +128,16 @@
 				"     partitionFileNames:[('Result'+toString($p_year,\"0000\")+\".csv\")],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> sink1"
+				"     partitionBy('hash', 1)) ~> sink1",
+				"FiltrarCol sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:true,",
+				"     format: 'document',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sinkCosmoDb"
 			]
 		}
 	}
