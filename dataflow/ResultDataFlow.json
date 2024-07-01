@@ -10,6 +10,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "Results"
+				},
+				{
+					"dataset": {
+						"referenceName": "RacesCsvRaw",
+						"type": "DatasetReference"
+					},
+					"name": "Races"
 				}
 			],
 			"sinks": [
@@ -57,6 +64,19 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine') ~> Results",
+				"source(output(",
+				"          raceId as integer,",
+				"          year as integer,",
+				"          round as integer,",
+				"          circuitId as integer,",
+				"          name as string,",
+				"          date as string,",
+				"          time as string,",
+				"          url as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> Races",
 				"FilterYear select(mapColumn(",
 				"          resultId,",
 				"          raceId,",
