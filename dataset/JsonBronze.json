@@ -11,6 +11,7 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"fileName": "ResTest.csv",
+				"folderPath": "test",
 				"container": "bronze"
 			}
 		},
