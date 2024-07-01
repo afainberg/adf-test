@@ -4,6 +4,9 @@
 	"parameters": {
 		"factoryName": {
 			"value": "adf-fainberg01"
+		},
+		"linkBlobFain_connectionString": {
+			"value": ""
 		}
 	}
 }

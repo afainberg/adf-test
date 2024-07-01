@@ -6,6 +6,10 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "adf-fainberg01"
+		},
+		"linkBlobFain_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'linkBlobFain'"
 		}
 	},
 	"variables": {
@@ -48,9 +52,380 @@
 					"elapsedTimeMetric": {}
 				},
 				"annotations": [],
-				"lastPublishTime": "2024-06-28T15:48:37Z"
+				"lastPublishTime": "2024-06-28T16:38:53Z"
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/results')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Results_copia",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "ResultDataFlow",
+								"type": "DataFlowReference",
+								"parameters": {
+									"p_year": "$p_year\r\n"
+								},
+								"datasetParameters": {
+									"Results": {},
+									"Races": {},
+									"sink1": {}
+								},
+								"linkedServiceParameters": {}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"p_year": {
+						"type": "int",
+						"defaultValue": 2010
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/ResultDataFlow')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/JsonResults')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "linkBlobFain",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "results.json",
+						"folderPath": "raw",
+						"container": "raw"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"resultId": {
+							"type": "integer"
+						},
+						"raceId": {
+							"type": "integer"
+						},
+						"driverId": {
+							"type": "integer"
+						},
+						"constructorId": {
+							"type": "integer"
+						},
+						"number": {
+							"type": "integer"
+						},
+						"grid": {
+							"type": "integer"
+						},
+						"position": {
+							"type": "null"
+						},
+						"positionText": {
+							"type": "null"
+						},
+						"positionOrder": {
+							"type": "integer"
+						},
+						"points": {
+							"type": "integer"
+						},
+						"laps": {
+							"type": "integer"
+						},
+						"time": {
+							"type": "string"
+						},
+						"milliseconds": {
+							"type": "null"
+						},
+						"fastestLap": {
+							"type": "integer"
+						},
+						"rank": {
+							"type": "integer"
+						},
+						"fastestLapTime": {
+							"type": "string"
+						},
+						"fastestLapSpeed": {
+							"type": "number"
+						},
+						"statusId": {
+							"type": "integer"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/linkBlobFain')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/linkBlobFain')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('linkBlobFain_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ResultDataFlow')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "JsonResults",
+								"type": "DatasetReference"
+							},
+							"name": "Results"
+						},
+						{
+							"dataset": {
+								"referenceName": "RacesCsvRaw",
+								"type": "DatasetReference"
+							},
+							"name": "Races"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "JsonBronze",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "FiltrarCol"
+						},
+						{
+							"name": "FilterYear"
+						},
+						{
+							"name": "Join"
+						},
+						{
+							"name": "fiterRaceID"
+						},
+						{
+							"name": "filterSeason"
+						}
+					],
+					"scriptLines": [
+						"parameters{",
+						"     p_year as integer (2008)",
+						"}",
+						"source(output(",
+						"          resultId as integer,",
+						"          raceId as integer,",
+						"          driverId as integer,",
+						"          constructorId as integer,",
+						"          number as integer,",
+						"          grid as integer,",
+						"          position as string,",
+						"          positionText as string,",
+						"          positionOrder as integer,",
+						"          points as integer,",
+						"          laps as integer,",
+						"          time as string,",
+						"          milliseconds as string,",
+						"          fastestLap as integer,",
+						"          rank as integer,",
+						"          fastestLapTime as string,",
+						"          fastestLapSpeed as double,",
+						"          statusId as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     documentForm: 'documentPerLine') ~> Results",
+						"source(output(",
+						"          raceId as integer,",
+						"          year as integer,",
+						"          round as integer,",
+						"          circuitId as integer,",
+						"          name as string,",
+						"          date as string,",
+						"          time as string,",
+						"          url as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> Races",
+						"FilterYear select(mapColumn(",
+						"          resultId,",
+						"          raceId = Results@raceId,",
+						"          driverId,",
+						"          constructorId,",
+						"          number,",
+						"          grid,",
+						"          position,",
+						"          positionText,",
+						"          positionOrder,",
+						"          points,",
+						"          laps,",
+						"          time = Results@time,",
+						"          milliseconds,",
+						"          fastestLap,",
+						"          ranking = rank,",
+						"          fastestLapTime,",
+						"          fastestLapSpeed,",
+						"          statusId",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> FiltrarCol",
+						"Join filter(1 ==1) ~> FilterYear",
+						"filterSeason, fiterRaceID join(Races@raceId == Results@raceId,",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> Join",
+						"Results filter(raceId<= 19) ~> fiterRaceID",
+						"Races filter(year==$p_year) ~> filterSeason",
+						"FiltrarCol sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/JsonResults')]",
+				"[concat(variables('factoryId'), '/datasets/RacesCsvRaw')]",
+				"[concat(variables('factoryId'), '/datasets/JsonBronze')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/JsonBronze')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "linkBlobFain",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "ResTest.csv",
+						"container": "bronze"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/linkBlobFain')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RacesCsvRaw')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "linkBlobFain",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "races.csv",
+						"folderPath": "raw",
+						"container": "raw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "raceId",
+						"type": "String"
+					},
+					{
+						"name": "year",
+						"type": "String"
+					},
+					{
+						"name": "round",
+						"type": "String"
+					},
+					{
+						"name": "circuitId",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "date",
+						"type": "String"
+					},
+					{
+						"name": "time",
+						"type": "String"
+					},
+					{
+						"name": "url",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/linkBlobFain')]"
+			]
 		}
 	]
 }
