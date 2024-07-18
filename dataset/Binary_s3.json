@@ -1,24 +1,18 @@
 {
-	"name": "CSV_S3",
+	"name": "Binary_s3",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AmazonS31",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
-		"type": "DelimitedText",
+		"type": "Binary",
 		"typeProperties": {
 			"location": {
 				"type": "AmazonS3Location",
 				"bucketName": "afainberg2024",
-				"folderPath": "raw",
-				"fileName": "*.xls"
-			},
-			"columnDelimiter": ",",
-			"escapeChar": "\\",
-			"firstRowAsHeader": true,
-			"quoteChar": "\""
-		},
-		"schema": []
+				"folderPath": "raw"
+			}
+		}
 	}
 }
