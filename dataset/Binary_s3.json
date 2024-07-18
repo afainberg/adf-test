@@ -11,7 +11,8 @@
 			"location": {
 				"type": "AmazonS3Location",
 				"bucketName": "afainberg2024",
-				"folderPath": "raw"
+				"folderPath": "raw",
+				"fileName": "*.xls"
 			}
 		}
 	}
